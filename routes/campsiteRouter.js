@@ -49,8 +49,7 @@ campsiteRouter.route('/:campsiteId')
         res.json(campsite);
     })
     .catch(err => next(err));
-})
-.post((req, res) => {
+})git 
     res.statusCode = 403;
     res.end(`POST operation not supported on /campsites/${req.params.campsiteId}`);
 })

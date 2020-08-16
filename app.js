@@ -6,10 +6,9 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var promotions = require('./routes/promotionRouter');
+var promotionRouter = require('./routes/promotionRouter');
 var partnerRouter = require('./routes/partnerRouter');
 var campsiterouter = require('./routes/campsiteRouter');
-const promotionRouter = require('./routes/promotionRouter');
 const mongoose = require('mongoose');
 
 const url = 'mongodb://localhost:27017/nucampsite';
@@ -38,9 +37,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/campsites',campsiterouter);
-app.use('/promotions',promotionRouter);
-app.use('/partners',partnerRouter);
+app.use('/campsites', campsiterouter);
+app.use('/promotions', promotionRouter);
+app.use('/partners', partnerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
