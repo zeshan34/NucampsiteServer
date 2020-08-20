@@ -1,6 +1,7 @@
 const express = require('express');
-
+const passport = require('passport');
 const User = require('../models/user');
+const { Router } = require('express');
 const router = express.Router();
 
 
@@ -9,8 +10,27 @@ router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/signup', (req, res, next) => {
-  User.findOne({ username: req.body.username })
+router.post('/signup', (req, res) => {
+  User.register(
+    new User({username:req.body.username}),
+    req.body.password,
+    err => {
+      if(err){
+        res.statusCode = 500;
+        res.setHeader('Content-type','application/json');
+        res.json({err:err})
+      }else {
+        passport.authenticate('local')(req,res, () =>{
+          res.statusCode = 200;
+          res.setHeader('Content-Type','application/json');
+          res.json({success:true, status:'Registration Successful'});
+        });
+      }
+
+    }
+  )
+});
+  /*User.findOne({ username: req.body.username })
     .then(user => {
       if (user) {
         const err = new Error(`User${req.body.username} already exist`);
@@ -52,7 +72,7 @@ router.post('/login', (req, res, next) => {
     const password = auth[1];
 
     User.findOne({ usename: username })
-    User.findOne({ usename: username })
+    Uiser.findOne({ usename: username })
       .then(user => {
         if (!user) {
           const err = new Error(`User ${username} doesnot exist!`);
@@ -76,8 +96,14 @@ router.post('/login', (req, res, next) => {
     res.end('You are already authenticated!');
   }
 });
-
-router.get('./logout',(res, req, next) =>{
+*/
+router.post('/login', passport.authenticate('local'),(req,res) =>
+  {
+    res.statusCode =200;
+    res.setHeader('Content-Type','application/json');
+    res.json({success:true, status:"you are successfully logged in!"} );
+  } );
+router.get('/logout',(res, req, next) =>{
   if (req.session){
     req.session.destroy();
     req.clearCookie('session-id');
