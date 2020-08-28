@@ -1,39 +1,31 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var partnerSchema = new Schema({
-    name:
-    {
-        type: String,
+// Creation of partner Schema
+const partnerSchema = new Schema({
+    name: {
+        type: String, 
         required: true,
         unique: true
-
     },
-    image:
-    {
+    image : {
         type: String,
         required: true
-
     },
-    featured:
-    {
+    featured:{
         type: Boolean,
-        default: false,
-
-
+        default: false
     },
-    description:
-    {
-        type: String,
+    description: {
+        type: String, 
         required: true
-
-
     },
 },
-    {
-        timeStamps: true
-    })
+{
+    timestamps: true
+})
 
+//Creation of modal from partner Schema
 const Partner = mongoose.model('Partner', partnerSchema);
 
 module.exports = Partner;
